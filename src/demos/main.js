@@ -15,6 +15,7 @@ import pkg from '../../package.json'
 import dme from '../'
 
 import App from './app'
+import Test from './test'
 // load styles
 require('github-css')
 // 提供全局事件给examples使用
@@ -39,9 +40,7 @@ const routes = [
   },
   {
     path: '/test',
-    component: {
-      template: `<div class="markdown-body">待定</div>`
-    }
+    component: Test
   }
 ]
 
@@ -59,7 +58,7 @@ for (let item of examples) {
       path,
       component: {
         template: `<div class="markdown-body">${item.content}</div>`,
-        ready: function () {
+        mounted: function () {
           let scripts = this.$el.querySelectorAll('.lang-javascript')
           for (let item of scripts) {
             eval(item.innerHTML)

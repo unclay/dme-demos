@@ -5,6 +5,7 @@
 # demo
 
 + [dem-demos@1.1.0](http://source.unclay.com/dme/1.1.0/index.html)
++ [dem-demos@1.1.1](http://source.unclay.com/dme/1.1.1/index.html)
 
 # 使用方法
 
@@ -17,6 +18,9 @@ npm run dev
 
 # 自定义开发环境的地址和端口
 npm run dev -- --host 0.0.0.0 --port 4000
+
+# 单元测试，自动测试test目录所有*.spec.js文件(mocha + chai)
+npm run test
 
 # 打包成静态文件目录，默认dist目录
 npm run build
