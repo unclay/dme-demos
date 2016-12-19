@@ -20,6 +20,24 @@ for (let item of config) {
   }
   example.content = md.replace(/<code.*"lang-preyaml".*>([^<]*)<\/code>/i, '')
                       .replace('<pre></pre>', '')
+  // 提取javascript
+  example.javascript = []
+  let javascript = md.match(/<code.*"lang-javascript".*>([^<]*)<\/code>/gi, '')
+  if (javascript) {
+    for (let item of javascript) {
+      example.javascript.push(item.replace(/<code.*"lang-javascript".*>|<\/code>/gi, ''))
+    }
+  }
+
+  // 提取html
+  example.html = []
+  let html = md.match(/<code.*"lang-html".*>([^<]*)<\/code>/gi, '')
+  if (html) {
+    for (let item of html) {
+      example.html.push(item.replace(/<code.*"lang-html".*>|<\/code>/gi, ''))
+    }
+  }
+  
   examples.push(example)
   // .md文档文件的预定格式必须是yaml格式
 }

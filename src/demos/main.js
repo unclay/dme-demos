@@ -11,11 +11,13 @@ import history from '../../HISTORY.md'
 
 import pkg from '../../package.json'
 
+// tool: tools
+import tools from './tools'
+
 // load index.js
 import dme from '../'
 
 import App from './app'
-import Test from './test'
 // load styles
 require('github-css')
 // 提供全局事件给examples使用
@@ -40,7 +42,9 @@ const routes = [
   },
   {
     path: '/test',
-    component: Test
+    component: {
+      template: `<div class="markdown-body">请用命令行进行单元测试，npm run test</div>`
+    }
   }
 ]
 
@@ -57,11 +61,28 @@ for (let item of examples) {
     routes.push({
       path,
       component: {
-        template: `<div class="markdown-body">${item.content}</div>`,
+        data () {
+          return {
+            content: item.content
+          }
+        },
+        template: '<div class="markdown-body examples-body" v-html="content"></div>',
         mounted: function () {
-          let scripts = this.$el.querySelectorAll('.lang-javascript')
-          for (let item of scripts) {
-            eval(item.innerHTML)
+          let content = item
+          
+          // 加载demo的html
+          let code = document.querySelectorAll('.lang-html')
+          for (let i = 0; i < code.length; i++) {
+            let pre = code[i].parentNode
+            let div = document.createElement('div')
+            div.innerHTML = tools.toHtml(content.html[i])
+            pre.parentNode.insertBefore(div, pre)
+            pre.parentNode.removeChild(pre)
+          }
+
+          // 加载demo脚本
+          for (let item of content.javascript) {
+            eval(tools.toJs(item))
           }
         }
       }
